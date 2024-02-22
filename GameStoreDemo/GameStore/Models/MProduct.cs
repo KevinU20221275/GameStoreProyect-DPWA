@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata;
 
 namespace GameStore.Models
 {
@@ -10,9 +11,26 @@ namespace GameStore.Models
 
         [Required]
         [Display(Name = "Nombre del Video Juego")]
-        public string productName { get; set; }
+        public string ProductName { get; set; }
 
-        [Display (Name = "Categoria")]
+        [Required]
+        [Display(Name = "Descripcion")]
+        public string ShortDescription { get; set; }
+
+        [Required]
+        [Display (Name = "Descripcion")]
+        public string Description { get; set; }
+
+        [Required]
+        [Display (Name = "Precio")]
+        public double Price { get; set; }
+
+        [Required]
+        [Display (Name = "Imagen")]
+        public string Image { get; set; }
+
+        [Required]
+        [Display(Name = "Categoria")]
         public int idCategory { get; set; }
 
         [Display (Name = "Categoria")]

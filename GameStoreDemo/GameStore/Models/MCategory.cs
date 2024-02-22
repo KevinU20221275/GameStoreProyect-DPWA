@@ -10,5 +10,9 @@ namespace GameStore.Models
         [Required]
         [Display (Name = "Nombre de la Categoria")]
         public string CategoryName { get; set; }
+
+        [Required]
+        [Display (Name = "Orden")]
+        public int Order {  get; set; }
     }
 }

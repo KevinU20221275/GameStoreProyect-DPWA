@@ -9,6 +9,10 @@ namespace GameStore.Models
 
         [Required]
         [Display (Name = "Nombre de la Consola" )]
-        public string consoleName { get; set; }
+        public string ConsoleName { get; set; }
+
+        [Required]
+        [Display (Name = "Descripcion")]
+        public string Description { get; set; }
     }
 }
