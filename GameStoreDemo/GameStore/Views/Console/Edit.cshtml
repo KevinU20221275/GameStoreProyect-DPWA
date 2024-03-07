@@ -1,5 +1,48 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model MConsole
 @{
+    ViewData["title"] = "Editar Consola";
 }
+
+
+<form method="post" asp-action="Edit">
+    <div class="border p-3">
+        <div class="form-group row">
+            <h2 class="text-info pl-3">Agregar Consola</h2>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group row">
+                    <div class="col-4">
+                        <input asp-for="idConsole" hidden />
+                        <label asp-for="ConsoleName">Nombre</label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="ConsoleName" class="form-control" />
+                        <span asp-validation-for="ConsoleName" class="text-danger"></span>
+                    </div>
+                </div><br />
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Description">Descripcion</label>
+                    </div>
+                    <div class="col-8">
+                        <textarea asp-for="Description" class="form-control "></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div><br />
+                <div class="form-group row">
+                    <div class="col-8 offset-4 row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-info w-100"><i class="fa-solid fa-check"></i></button>
+                        </div>
+                        <div class="col">
+                            <a asp-action="Index" class="btn btn-danger w-100"><i class="fa-solid fa-xmark"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
