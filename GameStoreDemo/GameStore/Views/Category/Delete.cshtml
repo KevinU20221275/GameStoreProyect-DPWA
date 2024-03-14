@@ -1,0 +1,26 @@
+﻿@model MCategory
+@{
+    ViewData["title"] = "Eliminar Categoria";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <dl>
+
+                <dt>@Html.DisplayNameFor(model => model.CategoryName)</dt>
+                <dd>@Html.DisplayFor(model => model.CategoryName)</dd>
+
+                <dt>@Html.DisplayNameFor(model => model.Order)</dt>
+                <dd>@Html.DisplayFor(model => model.Order)</dd>
+            </dl>
+            <form method="post" asp-action="Delete" class="mt-3">
+                <input asp-for="idCategory" hidden />
+                <input type="submit" value="Eliminar" class="btn btn-danger" />
+
+                <a asp-action="Index" class="btn btn-primary">Volver al Listado</a>
+            </form>
+        </div>
+    </div>
+</div>
+
