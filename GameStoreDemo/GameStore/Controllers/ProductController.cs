@@ -1,5 +1,6 @@
 ﻿using GameStore.Data;
 using GameStore.Models;
+using GameStore.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GameStore.Controllers
@@ -7,36 +8,71 @@ namespace GameStore.Controllers
     public class ProductController : Controller
     {
         private readonly AppDbContext _appDbContext;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductController(AppDbContext appDbContext)
+        public ProductController(AppDbContext appDbContext, IWebHostEnvironment webHostEnvironment)
         {
             _appDbContext = appDbContext;
+            _webHostEnvironment = webHostEnvironment;
         }
 
 
         // GET: ProductController
         public IActionResult Index()
         {
-            IEnumerable<MProduct> productModel = _appDbContext.tbl_product;
-            return View(productModel);
+            IEnumerable<MProduct> productList = _appDbContext.tbl_product;
+
+            foreach (var obj in productList)
+            {
+                obj.Category = _appDbContext.tbl_category.FirstOrDefault(c => c.idCategory == obj.idCategory);
+                obj.Console = _appDbContext.tbl_console.FirstOrDefault(c => c.idConsole == obj.idConsole);
+
+            }
+            return View(productList);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            ViewModelProduct vmproduct = new ViewModelProduct()
+            {
+                VMProduct = new MProduct(),
+                categorySelectList = _appDbContext.tbl_category.Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Text = c.CategoryName,
+                    Value = c.idCategory.ToString()
+                }),
+
+                consoleSelectList = _appDbContext.tbl_console.Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Text = c.ConsoleName,
+                    Value = c.idConsole.ToString()
+                })
+            };
+
+            return View(vmproduct);
+            
         }
 
         [HttpPost]
-        public IActionResult Create(MProduct productModel)
+        public IActionResult Create(ViewModelProduct vmProduct)
         {
-            if (ModelState.IsValid)
+            var files = HttpContext.Request.Form.Files;
+            string webPath = _webHostEnvironment.WebRootPath;
+            string upload = webPath + SSP.ProductPath;
+            string fileName= Guid.NewGuid().ToString();
+            string extencion = Path.GetExtension(files[0].FileName);
+            using (var fileStream = new FileStream
+                (Path.Combine(upload, fileName + extencion), FileMode.Create))
             {
-                _appDbContext.Add(productModel);
-                _appDbContext.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                files[0].CopyTo(fileStream);
             }
-            return View(productModel);
+            vmProduct.VMProduct.Image = fileName + extencion;
+            _appDbContext.Add(vmProduct.VMProduct);
+            _appDbContext.SaveChanges();
+
+            
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
