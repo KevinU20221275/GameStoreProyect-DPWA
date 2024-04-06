@@ -4,7 +4,7 @@ namespace GameStore.Models.ViewModel
 {
     public class ViewModelProduct
     {
-        public MProduct VMProduct { get; set; }
+        public MProduct MProduct { get; set; }
 
         public IEnumerable<SelectListItem> categorySelectList { get; set; }
         

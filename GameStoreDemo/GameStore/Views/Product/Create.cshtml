@@ -10,43 +10,43 @@
             <div class="col-8">
                 <div class="form-group row">
                     <div class="col-4">
-                        <label asp-for="VMProduct.ProductName">Nombre</label>
+                        <label asp-for="MProduct.ProductName">Nombre</label>
                     </div>
                     <div class="col-8">
-                        <input asp-for="VMProduct.ProductName" class="form-control" />
-                        <span asp-validation-for="VMProduct.ProductName" class="text-danger"></span>
+                        <input asp-for="MProduct.ProductName" class="form-control" />
+                        <span asp-validation-for="MProduct.ProductName" class="text-danger"></span>
                     </div>
                 </div><br />
                 <div class="form-group row">
                     <div class="col-4">
-                        <label asp-for="VMProduct.Description">Descripcion</label>
+                        <label asp-for="MProduct.Description">Descripcion</label>
                     </div>
                     <div class="col-8">
-                        <textarea asp-for="VMProduct.Description" class="form-control "></textarea>
-                        <span asp-validation-for="VMProduct.Description" class="text-danger"></span>
+                        <textarea asp-for="MProduct.Description" class="form-control "></textarea>
+                        <span asp-validation-for="MProduct.Description" class="text-danger"></span>
                     </div>
                 </div><br />
                 <div class="form-group row">
                     <div class="col-4">
-                        <label asp-for="VMProduct.ShortDescription">Descripcion Corta</label>
+                        <label asp-for="MProduct.ShortDescription">Descripcion Corta</label>
                     </div>
                     <div class="col-8">
-                        <textarea asp-for="VMProduct.ShortDescription" class="form-control "></textarea>
-                        <span asp-validation-for="VMProduct.ShortDescription" class="text-danger"></span>
+                        <textarea asp-for="MProduct.ShortDescription" class="form-control "></textarea>
+                        <span asp-validation-for="MProduct.ShortDescription" class="text-danger"></span>
                     </div>
                 </div><br />
                 <div class="form-group row">
                     <div class="col-4">
-                        <label asp-for="VMProduct.Price">Precio</label>
+                        <label asp-for="MProduct.Price">Precio</label>
                     </div>
                     <div class="col-8">
-                        <input asp-for="VMProduct.Price" class="form-control" />
-                        <span asp-validation-for="VMProduct.Price" class="text-danger"></span>
+                        <input asp-for="MProduct.Price" class="form-control" />
+                        <span asp-validation-for="MProduct.Price" class="text-danger"></span>
                     </div>
                 </div><br />
                 <div class="form-group row">
                     <div class="col-4">
-                        <label asp-for="VMProduct.Image"></label>
+                        <label asp-for="MProduct.Image"></label>
                     </div>
                     <div class="col-8">
                         <input type="file" name="files" id="uploadbox" class="form-control" />
@@ -54,25 +54,25 @@
                 </div><br />
                 <div class="form-group row">
                     <div class="col-4">
-                        <label asp-for="VMProduct.idCategory"></label>
+                        <label asp-for="MProduct.idCategory"></label>
                     </div>
                     <div class="col-8">
-                        <select asp-for="VMProduct.idCategory" asp-items="@Model.categorySelectList" class="form-control">
+                        <select asp-for="MProduct.idCategory" asp-items="@Model.categorySelectList" class="form-control">
                             <option disabled selected>--Seleccionar Categoria--</option>
                         </select>
-                        <span asp-validation-for="VMProduct.idCategory" class="text-danger"></span>
+                        <span asp-validation-for="MProduct.idCategory" class="text-danger"></span>
                     </div>
                 </div><br />
 
                 <div class="form-group row">
                     <div class="col-4">
-                        <label asp-for="VMProduct.idConsole"></label>
+                        <label asp-for="MProduct.idConsole"></label>
                     </div>
                     <div class="col-8">
-                        <select asp-for="VMProduct.idConsole" asp-items="@Model.consoleSelectList" class="form-control">
+                        <select asp-for="MProduct.idConsole" asp-items="@Model.consoleSelectList" class="form-control">
                             <option disabled selected>--Seleccionar Consola--</option>
                         </select>
-                        <span asp-validation-for="VMProduct.idConsole" class="text-danger"></span>
+                        <span asp-validation-for="MProduct.idConsole" class="text-danger"></span>
                     </div>
                 </div><br />
                 <div class="form-group row">

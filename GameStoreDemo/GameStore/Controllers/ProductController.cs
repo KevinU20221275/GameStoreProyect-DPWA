@@ -36,7 +36,7 @@ namespace GameStore.Controllers
         {
             ViewModelProduct vmproduct = new ViewModelProduct()
             {
-                VMProduct = new MProduct(),
+                MProduct = new MProduct(),
                 categorySelectList = _appDbContext.tbl_category.Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
                 {
                     Text = c.CategoryName,
@@ -67,8 +67,8 @@ namespace GameStore.Controllers
             {
                 files[0].CopyTo(fileStream);
             }
-            vmProduct.VMProduct.Image = fileName + extencion;
-            _appDbContext.Add(vmProduct.VMProduct);
+            vmProduct.MProduct.Image = fileName + extencion;
+            _appDbContext.Add(vmProduct.MProduct);
             _appDbContext.SaveChanges();
 
             
