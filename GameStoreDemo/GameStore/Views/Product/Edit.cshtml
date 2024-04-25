@@ -1,48 +1,78 @@
-﻿@model MProduct
+﻿@model GameStore.Models.ViewModel.ViewModelProduct
 
 
-<form method="post" asp-action="Edit">
+<form method="post" enctype="multipart/form-data" asp-action="Edit">
     <div class="border p-3">
         <div class="form-group row">
-            <h2 class="text-info pl-3">Editar video Juego</h2>
+            <h2 class="text-info pl-3">Agregar video Juego</h2>
         </div>
         <div class="row">
             <div class="col-8">
                 <div class="form-group row">
                     <div class="col-4">
-                        <input asp-for="idProduct" hidden />
-                        <label asp-for="ProductName">Nombre</label>
+                        <label asp-for="MProduct.ProductName">Nombre</label>
                     </div>
                     <div class="col-8">
-                        <input asp-for="ProductName" class="form-control" />
-                        <span asp-validation-for="ProductName" class="text-danger"></span>
+                        <input asp-for="MProduct.ProductName" class="form-control" />
+                        <span asp-validation-for="MProduct.ProductName" class="text-danger"></span>
                     </div>
                 </div><br />
                 <div class="form-group row">
                     <div class="col-4">
-                        <label asp-for="Description">Descripcion</label>
+                        <label asp-for="MProduct.Description">Descripcion</label>
                     </div>
                     <div class="col-8">
-                        <textarea asp-for="Description" class="form-control "></textarea>
-                        <span asp-validation-for="Description" class="text-danger"></span>
+                        <textarea asp-for="MProduct.Description" class="form-control "></textarea>
+                        <span asp-validation-for="MProduct.Description" class="text-danger"></span>
                     </div>
                 </div><br />
                 <div class="form-group row">
                     <div class="col-4">
-                        <label asp-for="ShortDescription">Descripcion Corta</label>
+                        <label asp-for="MProduct.ShortDescription">Descripcion Corta</label>
                     </div>
                     <div class="col-8">
-                        <textarea asp-for="ShortDescription" class="form-control "></textarea>
-                        <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                        <textarea asp-for="MProduct.ShortDescription" class="form-control "></textarea>
+                        <span asp-validation-for="MProduct.ShortDescription" class="text-danger"></span>
                     </div>
                 </div><br />
                 <div class="form-group row">
                     <div class="col-4">
-                        <label asp-for="Price">Precio</label>
+                        <label asp-for="MProduct.Price">Precio</label>
                     </div>
                     <div class="col-8">
-                        <input asp-for="Price" class="form-control" />
-                        <span asp-validation-for="Price" class="text-danger"></span>
+                        <input asp-for="MProduct.Price" class="form-control" />
+                        <span asp-validation-for="MProduct.Price" class="text-danger"></span>
+                    </div>
+                </div><br />
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="MProduct.Image"></label>
+                    </div>
+                    <div class="col-8">
+                        <input type="file" name="files" id="uploadbox" class="form-control" />
+                    </div>
+                </div><br />
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="MProduct.idCategory"></label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="MProduct.idCategory" asp-items="@Model.categorySelectList" class="form-control">
+                            <option disabled selected>--Seleccionar Categoria--</option>
+                        </select>
+                        <span asp-validation-for="MProduct.idCategory" class="text-danger"></span>
+                    </div>
+                </div><br />
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="MProduct.idConsole"></label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="MProduct.idConsole" asp-items="@Model.consoleSelectList" class="form-control">
+                            <option disabled selected>--Seleccionar Consola--</option>
+                        </select>
+                        <span asp-validation-for="MProduct.idConsole" class="text-danger"></span>
                     </div>
                 </div><br />
                 <div class="form-group row">

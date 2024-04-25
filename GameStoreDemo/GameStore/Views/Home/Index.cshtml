@@ -1,8 +1,25 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+﻿@model GameStore.Models.ViewModel.ViewModelHome;
+<div class="container">
+    <div class="text-center">
+        <button class="btn btn-success filter-button" data-filter="all">Todas las consolas</button>
+        @foreach (var obj in Model.Consoles)
+        {
+                <button class="btn btn-outline-primary filter-button" data-filter="@obj.ConsoleName.Replace(' ', '_')">@obj.ConsoleName</button>
+        }
+    </div>
+    <br />
+    <div class="text-center">
+        <button class="btn btn-success filter-button2" data-filter="all2">Todas las categorias</button>
+        @foreach (var obj in Model.Categories)
+        {
+                <button class="btn btn-outline-primary filter-button2" data-filter="@obj.CategoryName.Replace(' ', '_')">@obj.CategoryName</button>
+        }
+    </div>
+    <br />
+    <div class="row">
+        @foreach (var product in Model.Products)
+        {
+                    <partial name="_CardProduct" model="product"/>
+        }
+    </div>
 </div>

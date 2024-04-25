@@ -85,26 +85,52 @@ namespace GameStore.Controllers
 
             var idProduct = _appDbContext.tbl_product.Find(id);
 
+            ViewModelProduct vmproduct = new ViewModelProduct()
+            {
+                MProduct = idProduct,
+                categorySelectList = _appDbContext.tbl_category.Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Text = c.CategoryName,
+                    Value = c.idCategory.ToString()
+                }),
+
+                consoleSelectList = _appDbContext.tbl_console.Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
+                {
+                    Text = c.ConsoleName,
+                    Value = c.idConsole.ToString()
+                })
+            };
+
             if (idProduct == null)
             {
                 return NotFound();
             }
 
-            return View(idProduct);
+            return View(vmproduct);
         }
 
 
         [HttpPost]
-        public IActionResult Edit(MProduct productModel)
+        public IActionResult Edit(ViewModelProduct vmProduct)
         {
-            if (ModelState.IsValid)
+            var files = HttpContext.Request.Form.Files;
+            string webPath = _webHostEnvironment.WebRootPath;
+            string upload = webPath + SSP.ProductPath;
+            string fileName = Guid.NewGuid().ToString();
+            string extencion = Path.GetExtension(files[0].FileName);
+            using (var fileStream = new FileStream
+                (Path.Combine(upload, fileName + extencion), FileMode.Create))
             {
-                _appDbContext.Update(productModel);
-                _appDbContext.SaveChanges();
-                TempData["editProduct"] = "Se edito correctamente el Producto";
-                return RedirectToAction(nameof(Index));
+                files[0].CopyTo(fileStream);
             }
-            return View(productModel);
+            vmProduct.MProduct.Image = fileName + extencion;
+
+            _appDbContext.Update(vmProduct.MProduct);
+            _appDbContext.SaveChanges();
+            TempData["editProduct"] = "Se edito correctamente el Producto";
+            return RedirectToAction(nameof(Index));
+
+
         }
 
         [HttpGet]
