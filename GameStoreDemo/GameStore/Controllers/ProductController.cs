@@ -2,6 +2,7 @@
 using GameStore.Models;
 using GameStore.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameStore.Controllers
 {
@@ -71,7 +72,6 @@ namespace GameStore.Controllers
             _appDbContext.Add(vmProduct.MProduct);
             _appDbContext.SaveChanges();
 
-            
             return RedirectToAction("Index");
         }
 
@@ -83,11 +83,9 @@ namespace GameStore.Controllers
                 return NotFound();
             }
 
-            var idProduct = _appDbContext.tbl_product.Find(id);
-
             ViewModelProduct vmproduct = new ViewModelProduct()
             {
-                MProduct = idProduct,
+                MProduct = new MProduct(),
                 categorySelectList = _appDbContext.tbl_category.Select(c => new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem
                 {
                     Text = c.CategoryName,
@@ -101,10 +99,7 @@ namespace GameStore.Controllers
                 })
             };
 
-            if (idProduct == null)
-            {
-                return NotFound();
-            }
+            vmproduct.MProduct = _appDbContext.tbl_product.Find(id);
 
             return View(vmproduct);
         }
@@ -113,24 +108,39 @@ namespace GameStore.Controllers
         [HttpPost]
         public IActionResult Edit(ViewModelProduct vmProduct)
         {
-            var files = HttpContext.Request.Form.Files;
+            var obj = _appDbContext.tbl_product.AsNoTracking()
+                .FirstOrDefault(u => u.idProduct==vmProduct.MProduct.idProduct);
+
+            var files = HttpContext.Request.Form.Files; // Para ver la imagen
             string webPath = _webHostEnvironment.WebRootPath;
-            string upload = webPath + SSP.ProductPath;
-            string fileName = Guid.NewGuid().ToString();
-            string extencion = Path.GetExtension(files[0].FileName);
-            using (var fileStream = new FileStream
-                (Path.Combine(upload, fileName + extencion), FileMode.Create))
+            if (files.Count > 0)
             {
-                files[0].CopyTo(fileStream);
+                string upload = webPath + SSP.ProductPath;
+                var oldfile = Path.Combine(upload, obj.Image);
+                if (System.IO.File.Exists(oldfile))
+                {
+                    System.IO.File.Delete(oldfile);
+                }
+  
+                string fileName = Guid.NewGuid().ToString();
+                string extencion = Path.GetExtension(files[0].FileName);
+                using (var fileStream = new FileStream
+                    (Path.Combine(upload, fileName + extencion), FileMode.Create))
+                {
+                    files[0].CopyTo(fileStream);
+                }
+                vmProduct.MProduct.Image = fileName + extencion;
+            } else
+            {
+                vmProduct.MProduct.Image = obj.Image;
             }
-            vmProduct.MProduct.Image = fileName + extencion;
+            
 
             _appDbContext.Update(vmProduct.MProduct);
             _appDbContext.SaveChanges();
             TempData["editProduct"] = "Se edito correctamente el Producto";
+
             return RedirectToAction(nameof(Index));
-
-
         }
 
         [HttpGet]
@@ -141,21 +151,37 @@ namespace GameStore.Controllers
                 return NotFound();
             }
 
-            var idProduct = _appDbContext.tbl_product.Find(id);
+            MProduct objProduct = _appDbContext.tbl_product.Include(c => c.Category)
+                .Include(c => c.Console).FirstOrDefault(p => p.idProduct == id);
 
-            if (idProduct == null)
+            if (objProduct == null)
             {
                 return NotFound();
             }
 
-            return View(idProduct);
+            return View(objProduct);
         }
 
+
         [HttpPost]
-        public IActionResult Delete(MProduct productModel)
+        public IActionResult Delete(int idProduct)
         {
 
-            _appDbContext.Remove(productModel);
+            MProduct product = _appDbContext.tbl_product.Find(idProduct);
+
+            string webPath = _webHostEnvironment.WebRootPath;
+            string upload = webPath + SSP.ProductPath;
+            var oldfile = Path.Combine(upload, product.Image);
+            if (System.IO.File.Exists(oldfile))
+            {
+                System.IO.File.Delete(oldfile);
+            }
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            _appDbContext.Remove(product);
             _appDbContext.SaveChanges();
             TempData["deleteProduct"] = "Se Elimino correctamente el Producto";
             return RedirectToAction(nameof(Index));

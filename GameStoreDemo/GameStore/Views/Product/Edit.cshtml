@@ -1,4 +1,4 @@
-﻿@model GameStore.Models.ViewModel.ViewModelProduct
+﻿@model GameStore.Models.ViewModel.ViewModelProduct;
 
 
 <form method="post" enctype="multipart/form-data" asp-action="Edit">
@@ -9,6 +9,7 @@
         <div class="row">
             <div class="col-8">
                 <div class="form-group row">
+                    <input hidden asp-for="MProduct.idProduct" />
                     <div class="col-4">
                         <label asp-for="MProduct.ProductName">Nombre</label>
                     </div>
@@ -52,6 +53,7 @@
                         <input type="file" name="files" id="uploadbox" class="form-control" />
                     </div>
                 </div><br />
+                
                 <div class="form-group row">
                     <div class="col-4">
                         <label asp-for="MProduct.idCategory"></label>
@@ -85,6 +87,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-4">
+                <img src="@SSP.ProductPath\@Model.MProduct.Image" style="width:100%; border-radius:5pz; border:1px solid #bbb" />
             </div>
         </div>
     </div>

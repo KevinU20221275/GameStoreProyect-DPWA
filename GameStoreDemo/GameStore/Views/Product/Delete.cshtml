@@ -1,31 +1,80 @@
-﻿@model MProduct
-@{
-    ViewData["title"] = "Eliminar Producto";
-}
+﻿@model MProduct;
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <dl>
+<form method="post" asp-action="Delete">
+    
+    <div class="border p-3">
+        <div class="form-group row">
+            <h2 class="text-info pl-3">Borrar Producto</h2>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <input asp-for="idProduct" hidden /> 
 
-                <dt>@Html.DisplayNameFor(model => model.ProductName)</dt>
-                <dd>@Html.DisplayFor(model => model.ProductName)</dd>
-
-                <dt>@Html.DisplayNameFor(model => model.Description)</dt>
-                <dd>@Html.DisplayFor(model => model.Description)</dd>
-
-                <dt>@Html.DisplayNameFor(model => model.ShortDescription)</dt>
-                <dd>@Html.DisplayFor(model => model.ShortDescription)</dd>
-
-                <dt>@Html.DisplayNameFor(model => model.Price)</dt>
-                <dd>@Html.DisplayFor(model => model.Price)</dd>
-            </dl>
-            <form method="post" asp-action="Delete" class="mt-3">
-                <input asp-for="idProduct" hidden />
-                <input type="submit" value="Eliminar" class="btn btn-danger" />
-
-                <a asp-action="Index" class="btn btn-primary">Volver al Listado</a>
-            </form>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="ProductName"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="ProductName" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="ShortDescription"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="ShortDescription" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Description"></label>
+                    </div>
+                    <div class="col-8">
+                        <textarea asp-for="Description" class="form-control summernote" disabled></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Price"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Price" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="idCategory"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Category.CategoryName" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="idConsole"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Console.ConsoleName" disabled class="form-control" />
+                    </div>
+                </div>
+                <div class="form group row">
+                    <div class="col-8 offset-4 row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-danger w-100">Borrar</button>
+                        </div>
+                        <div class="col">
+                            <a asp-action="Index" class="btn btn-warning w-100"><i class="fas fa-reply"></i>&nbsp;Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if (Model.idProduct != 0)
+            {
+                <div class="col-4">
+                    <img src="@SSP.ProductPath\@Model.Image" style="width:100%; border-radius:5pz; border:1px solid #bbb" />
+                </div>
+            }
         </div>
     </div>
-</div>
+</form>
