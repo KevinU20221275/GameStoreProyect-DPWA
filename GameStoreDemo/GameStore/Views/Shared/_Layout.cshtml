@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="~/GameStore.styles.css" asp-append-version="true" />
+    
 </head>
 <body>
     <header>
@@ -26,6 +27,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-action="Index" asp-controller="Home">Inicio</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-action="CreateAcount" asp-controller="Home">Registrarse</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-action="Login" asp-controller="Home">Ingresar</a>
+                        </li>
+                        
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Catalogo
@@ -49,10 +57,8 @@
                             </a>
 
                         </li>
-                        </li>
                     </ul>
                 </div>
-            </div>
             </div>
         </nav>
     </header>
