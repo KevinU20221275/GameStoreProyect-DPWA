@@ -15,5 +15,7 @@ namespace GameStore.Data
         public DbSet<MConsole> tbl_console { get; set; }
 
         public DbSet<MProduct> tbl_product { get; set; }
+
+        public DbSet<MUser> tbl_user { get; set; }
     }
 }
