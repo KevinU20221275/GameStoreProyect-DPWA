@@ -1,0 +1,35 @@
+﻿﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Confirmar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="flex justify-center">
+        <div class="container mt-3">
+            @if ((bool)ViewBag.Respuesta)
+            {
+                <div class="bg-green-500 text-white font-bold rounded-lg p-4 mb-4">
+                    <p class="mb-4"><b>Listo!</b>&nbsp; Su cuenta fue confirmada. Ahora puede acceder</p>
+                    <a class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded" href="@Url.Action("SignIn")">Ingresar</a>
+                </div>
+            }
+            else
+            {
+                <div class="bg-red-500 text-white font-bold rounded-lg p-4 mb-4">
+                    <p>No se pudo confirmar el correo</p>
+                </div>
+            }
+        </div>
+    </div>
+
+
+</body>
+</html>

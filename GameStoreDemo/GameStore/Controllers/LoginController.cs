@@ -29,11 +29,34 @@ namespace GameStore.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult SignIn(MUser mUser)
+        {
+            string password = mUser.Password;
+            mUser.Password = Utility.ConvertSHA256(password);
+            MUser user = _appDbContext.tbl_user.FirstOrDefault(u => u.Email == mUser.Email && u.Password == mUser.Password);
+            if (user != null)
+            {
+                if (!user.Signed)
+                {
+                    ViewBag.Mensaje = "Falat confirmar correo";
+                }
+                return RedirectToAction("SignIn");
+            } else
+            {
+                ViewBag.Mensaje = "Contraseña o Correo incorrectos";
+            }
+
+            return View();
+        }
+
         [HttpGet]
         public IActionResult SignUp()
         {
             return View();
         }
+
+        
 
         [HttpPost]
         public IActionResult SignUp(MUser mUser)
@@ -60,7 +83,26 @@ namespace GameStore.Controllers
 
             bool enviado = EmailService.SendEmail(email);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("SignIn");
+        }
+
+        public IActionResult Confirmar(string token)
+        {
+            MUser mUser = _appDbContext.tbl_user.FirstOrDefault(u => u.Token == token);
+
+            if (mUser != null)
+            {
+                ViewBag.Respuesta = true;
+                mUser.Signed = true;
+                _appDbContext.Update(mUser);
+                _appDbContext.SaveChanges();
+
+                
+            } else
+            {
+                ViewBag.Respuesta = false;
+            }
+            return View("Confirm");
         }
 
     }
