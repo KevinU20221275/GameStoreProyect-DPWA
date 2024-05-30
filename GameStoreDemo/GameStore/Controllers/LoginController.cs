@@ -1,6 +1,9 @@
-﻿using GameStore.Data;
+﻿using System.Security.Claims;
+using GameStore.Data;
 using GameStore.Models;
 using GameStore.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,11 +29,16 @@ namespace GameStore.Controllers
         [HttpGet]
         public IActionResult SignIn()
         {
+            ClaimsPrincipal claimsPrincipal = HttpContext.User;
+            if (claimsPrincipal.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         [HttpPost]
-        public IActionResult SignIn(MUser mUser)
+        public async Task<IActionResult> SignIn(MUser mUser)
         {
             string password = mUser.Password;
             mUser.Password = Utility.ConvertSHA256(password);
@@ -41,7 +49,24 @@ namespace GameStore.Controllers
                 {
                     ViewBag.Mensaje = "Falat confirmar correo";
                 }
-                return RedirectToAction("SignIn");
+
+                List<Claim> claims = new List<Claim>()
+                {
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.NameIdentifier, user.IdUser.ToString())
+                };
+
+                ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
+                AuthenticationProperties properties = new AuthenticationProperties()
+                {
+                    AllowRefresh = true,
+                    IsPersistent = true,
+                };
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity), properties);
+
+                return RedirectToAction("Index", "Home");
             } else
             {
                 ViewBag.Mensaje = "Contraseña o Correo incorrectos";
@@ -103,6 +128,13 @@ namespace GameStore.Controllers
                 ViewBag.Respuesta = false;
             }
             return View("Confirm");
+        }
+
+        public async Task<IActionResult> Salir()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("SignIn", "Login");
         }
 
     }

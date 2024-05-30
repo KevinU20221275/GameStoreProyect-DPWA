@@ -2,6 +2,7 @@ using System.Diagnostics;
 using GameStore.Data;
 using GameStore.Models;
 using GameStore.Models.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,7 @@ namespace GameStore.Controllers
             _appDbContext = appDbContext;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             ViewModelHome VMHome = new ViewModelHome()
